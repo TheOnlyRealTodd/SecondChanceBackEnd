@@ -6,9 +6,9 @@ using System.Web;
 
 namespace SecondChance.Models
 {
-    public class Felon
+    public class User
     {
-        public int FelonId { get; set; }
+        public int UserId { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]

@@ -21,7 +21,7 @@ namespace SecondChance.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Felon> Felons { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Employer> Employers { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public ApplicationDbContext()

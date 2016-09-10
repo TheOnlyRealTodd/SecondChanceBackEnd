@@ -12,44 +12,44 @@ using SecondChance.Models;
 
 namespace SecondChance.Controllers
 {
-    public class FelonsController : ApiController
+    public class UsersController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/Felons
-        public IQueryable<Felon> GetFelons()
+        // GET: api/Users
+        public IQueryable<User> GetUsers()
         {
-            return db.Felons;
+            return db.Users;
         }
 
-        // GET: api/Felons/5
-        [ResponseType(typeof(Felon))]
-        public IHttpActionResult GetFelon(int id)
+        // GET: api/Users/5
+        [ResponseType(typeof(User))]
+        public IHttpActionResult GetUser(int id)
         {
-            Felon felon = db.Felons.Find(id);
-            if (felon == null)
+            User user = db.Users.Find(id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return Ok(felon);
+            return Ok(user);
         }
 
-        // PUT: api/Felons/5
+        // PUT: api/Users/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutFelon(int id, Felon felon)
+        public IHttpActionResult PutUser(int id, User user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != felon.FelonId)
+            if (id != user.UserId)
             {
                 return BadRequest();
             }
 
-            db.Entry(felon).State = EntityState.Modified;
+            db.Entry(user).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +57,7 @@ namespace SecondChance.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FelonExists(id))
+                if (!UserExists(id))
                 {
                     return NotFound();
                 }
@@ -70,35 +70,35 @@ namespace SecondChance.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Felons
-        [ResponseType(typeof(Felon))]
-        public IHttpActionResult PostFelon(Felon felon)
+        // POST: api/Users
+        [ResponseType(typeof(User))]
+        public IHttpActionResult PostUser(User user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Felons.Add(felon);
+            db.Users.Add(user);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = felon.FelonId }, felon);
+            return CreatedAtRoute("DefaultApi", new { id = user.UserId }, user);
         }
 
-        // DELETE: api/Felons/5
-        [ResponseType(typeof(Felon))]
-        public IHttpActionResult DeleteFelon(int id)
+        // DELETE: api/Users/5
+        [ResponseType(typeof(User))]
+        public IHttpActionResult DeleteUser(int id)
         {
-            Felon felon = db.Felons.Find(id);
-            if (felon == null)
+            User user = db.Users.Find(id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            db.Felons.Remove(felon);
+            db.Users.Remove(user);
             db.SaveChanges();
 
-            return Ok(felon);
+            return Ok(user);
         }
 
         protected override void Dispose(bool disposing)
@@ -110,9 +110,9 @@ namespace SecondChance.Controllers
             base.Dispose(disposing);
         }
 
-        private bool FelonExists(int id)
+        private bool UserExists(int id)
         {
-            return db.Felons.Count(e => e.FelonId == id) > 0;
+            return db.Users.Count(e => e.UserId == id) > 0;
         }
     }
 }

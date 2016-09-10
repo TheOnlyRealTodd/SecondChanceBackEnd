@@ -235,7 +235,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EmployersController.cs" />
-    <Compile Include="Controllers\FelonsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -246,11 +246,15 @@
     <Compile Include="Migrations\201609102221068_InitialMigration.Designer.cs">
       <DependentUpon>201609102221068_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609102347530_ChangeFelonToUserAndSetUpControllers.cs" />
+    <Compile Include="Migrations\201609102347530_ChangeFelonToUserAndSetUpControllers.Designer.cs">
+      <DependentUpon>201609102347530_ChangeFelonToUserAndSetUpControllers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Employer.cs" />
-    <Compile Include="Models\Felon.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Job.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -332,6 +336,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201609102221068_InitialMigration.resx">
       <DependentUpon>201609102221068_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609102347530_ChangeFelonToUserAndSetUpControllers.resx">
+      <DependentUpon>201609102347530_ChangeFelonToUserAndSetUpControllers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

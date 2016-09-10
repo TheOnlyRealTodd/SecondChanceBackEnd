@@ -90,3 +90,4 @@ D:\Projects\SecondChance\SecondChance\obj\Debug\SecondChance.dll
 D:\Projects\SecondChance\SecondChance\obj\Debug\SecondChance.pdb
 D:\Projects\SecondChance\SecondChance\obj\Debug\SecondChance.Migrations.InitialMigration.resources
 D:\Projects\SecondChance\SecondChance\obj\Debug\SecondChance.csproj.GenerateResource.Cache
+D:\Projects\SecondChance\SecondChance\obj\Debug\SecondChance.Migrations.ChangeFelonToUserAndSetUpControllers.resources
