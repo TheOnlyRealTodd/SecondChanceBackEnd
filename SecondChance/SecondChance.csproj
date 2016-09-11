@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -202,6 +206,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\MappingProfile.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -235,9 +240,9 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EmployersController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -254,17 +259,30 @@
     <Compile Include="Migrations\201609110004323_SetOneToManyEmployersToJobs.Designer.cs">
       <DependentUpon>201609110004323_SetOneToManyEmployersToJobs.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609110525104_AddAccountType.cs" />
+    <Compile Include="Migrations\201609110525104_AddAccountType.Designer.cs">
+      <DependentUpon>201609110525104_AddAccountType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609110638207_FixAccountIssues.cs" />
+    <Compile Include="Migrations\201609110638207_FixAccountIssues.Designer.cs">
+      <DependentUpon>201609110638207_FixAccountIssues.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609110714208_ChangeUserToLuser.cs" />
+    <Compile Include="Migrations\201609110714208_ChangeUserToLuser.Designer.cs">
+      <DependentUpon>201609110714208_ChangeUserToLuser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Employer.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Luser.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Job.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Dtos\UserDto.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -346,6 +364,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609110004323_SetOneToManyEmployersToJobs.resx">
       <DependentUpon>201609110004323_SetOneToManyEmployersToJobs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609110525104_AddAccountType.resx">
+      <DependentUpon>201609110525104_AddAccountType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609110638207_FixAccountIssues.resx">
+      <DependentUpon>201609110638207_FixAccountIssues.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609110714208_ChangeUserToLuser.resx">
+      <DependentUpon>201609110714208_ChangeUserToLuser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

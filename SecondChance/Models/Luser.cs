@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Newtonsoft.Json;
 
 namespace SecondChance.Models
 {
-    public class User
+   // [JsonArray]
+    public class Luser
     {
-        public int UserId { get; set; }
+        public int LuserId { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]
@@ -27,6 +29,7 @@ namespace SecondChance.Models
         public string State { get; set; }
         [Required]
         public string Email { get; set; }
+
 
     }
 }

@@ -18,6 +18,9 @@ using SecondChance.Providers;
 using SecondChance.Results;
 
 namespace SecondChance.Controllers
+
+
+
 {
     [Authorize]
     [RoutePrefix("api/Account")]
@@ -328,14 +331,20 @@ namespace SecondChance.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, IsEmployer = model.IsEmployer};
+
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+
 
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
             }
+           // var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+           // var roleManager = new RoleManager<IdentityRole>(roleStore);
+           //await roleManager.CreateAsync(new IdentityRole("Employer"));
 
             return Ok();
         }

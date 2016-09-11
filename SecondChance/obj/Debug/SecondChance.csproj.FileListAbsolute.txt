@@ -92,3 +92,8 @@ D:\Projects\SecondChance\SecondChance\obj\Debug\SecondChance.Migrations.InitialM
 D:\Projects\SecondChance\SecondChance\obj\Debug\SecondChance.csproj.GenerateResource.Cache
 D:\Projects\SecondChance\SecondChance\obj\Debug\SecondChance.Migrations.ChangeFelonToUserAndSetUpControllers.resources
 D:\Projects\SecondChance\SecondChance\obj\Debug\SecondChance.Migrations.SetOneToManyEmployersToJobs.resources
+D:\Projects\SecondChance\SecondChance\obj\Debug\SecondChance.Migrations.AddAccountType.resources
+D:\Projects\SecondChance\SecondChance\obj\Debug\SecondChance.Migrations.FixAccountIssues.resources
+D:\Projects\SecondChance\SecondChance\obj\Debug\SecondChance.Migrations.ChangeUserToLuser.resources
+D:\Projects\SecondChance\SecondChance\bin\AutoMapper.dll
+D:\Projects\SecondChance\SecondChance\bin\AutoMapper.xml

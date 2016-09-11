@@ -17,88 +17,85 @@ namespace SecondChance.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Users
-        public IQueryable<User> GetUsers()
+        public IQueryable<Luser> GetUsers()
         {
-            return db.Users;
+            return db.Lusers;
         }
 
         // GET: api/Users/5
-        [ResponseType(typeof(User))]
+        [ResponseType(typeof(Luser))]
         public IHttpActionResult GetUser(int id)
         {
-            User user = db.Users.Find(id);
-            if (user == null)
+            Luser luser = db.Lusers.Find(id);
+            if (luser == null)
             {
                 return NotFound();
             }
 
-            return Ok(user);
+            return Ok(luser);
         }
 
         // PUT: api/Users/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutUser(int id, User user)
+
+        [HttpPut]
+        public IHttpActionResult PutUser(int id, Luser luser)
         {
+            luser.LuserId = id;
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            var luserInDb = db.Lusers.SingleOrDefault(l => l.LuserId == id);
+            luserInDb.FirstName = luser.FirstName;
+            luserInDb.LastName = luser.LastName;
+            luserInDb.Email = luser.Email;
+            luserInDb.FeloniesCommitted = luser.FeloniesCommitted;
+            luserInDb.AboutMe = luser.AboutMe;
+            luserInDb.City = luser.City;
+            luserInDb.Skill1 = luser.Skill1;
+            luserInDb.Skill2 = luser.Skill2;
+            luserInDb.Skill3 = luser.Skill3;
+            luserInDb.State = luser.State;
 
-            if (id != user.UserId)
+            if (luserInDb == null)
             {
-                return BadRequest();
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            db.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            db.SaveChanges();
+            return Ok();
         }
 
         // POST: api/Users
-        [ResponseType(typeof(User))]
-        public IHttpActionResult PostUser(User user)
+        [HttpPost]
+        public IHttpActionResult PostUser(Luser luser)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Users.Add(user);
+            db.Lusers.Add(luser);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = user.UserId }, user);
+            return CreatedAtRoute("DefaultApi", new { id = luser.LuserId }, luser);
         }
 
         // DELETE: api/Users/5
-        [ResponseType(typeof(User))]
+        [ResponseType(typeof(Luser))]
         public IHttpActionResult DeleteUser(int id)
         {
-            User user = db.Users.Find(id);
-            if (user == null)
+            Luser luser = db.Lusers.Find(id);
+            if (luser == null)
             {
                 return NotFound();
             }
 
-            db.Users.Remove(user);
+            db.Lusers.Remove(luser);
             db.SaveChanges();
 
-            return Ok(user);
+            return Ok(luser);
         }
 
         protected override void Dispose(bool disposing)
@@ -112,7 +109,7 @@ namespace SecondChance.Controllers
 
         private bool UserExists(int id)
         {
-            return db.Users.Count(e => e.UserId == id) > 0;
+            return db.Lusers.Count(e => e.LuserId == id) > 0;
         }
     }
 }
