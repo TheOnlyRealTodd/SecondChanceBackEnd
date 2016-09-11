@@ -39,36 +39,33 @@ namespace SecondChance.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PutEmployer(int id, Employer employer)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
-            if (id != employer.EmployerId)
-            {
-                return BadRequest();
-            }
+            employer.EmployerId = id;
 
-            db.Entry(employer).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EmployerExists(id))
+                if (!ModelState.IsValid)
                 {
-                    return NotFound();
+                    return BadRequest(ModelState);
                 }
-                else
-                {
-                    throw;
-                }
+                var employerInDb = db.Employers.SingleOrDefault(e => e.EmployerId == id);
+
+            employerInDb.Name = employer.Name;
+            employerInDb.City = employer.Name;
+            employerInDb.Description = employer.Description;
+            employerInDb.ContactEmail = employer.ContactEmail;
+            employerInDb.ContactName = employer.ContactName;
+            employerInDb.ContactPhone = employer.ContactPhone;
+            employerInDb.State = employer.State;
+            employerInDb.Jobs = employer.Jobs;
+
+            if (employerInDb == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            db.SaveChanges();
+            return Ok();
         }
+        
 
         // POST: api/Employers
         [ResponseType(typeof(Employer))]
