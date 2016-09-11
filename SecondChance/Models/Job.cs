@@ -18,5 +18,6 @@ namespace SecondChance.Models
         [Required]
         public string City { get; set; }
         public bool HasGed { get; set; }
+        public Employer Employer { get; set; }
     }
 }

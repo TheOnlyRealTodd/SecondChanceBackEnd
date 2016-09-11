@@ -22,5 +22,6 @@ namespace SecondChance.Models
         [Required]
         public string ContactEmail { get; set; }
         public string ContactPhone { get; set; }
+        public ICollection<Job> Jobs { get; set; }
     }
 }
