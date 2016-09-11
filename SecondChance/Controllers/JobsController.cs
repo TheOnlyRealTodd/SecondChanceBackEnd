@@ -39,46 +39,34 @@ namespace SecondChance.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PutJob(int id, Job job)
         {
+            job.JobId = id;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            var jobInDb = db.Jobs.Include("Employer").SingleOrDefault();
+            AutoMapper.Mapper.Map(job, jobInDb);
 
-            if (id != job.JobId)
+            if (jobInDb == null)
             {
-                return BadRequest();
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            db.Entry(job).State = EntityState.Modified;
+            db.SaveChanges();
+            return Ok();
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!JobExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
         }
 
         // POST: api/Jobs
         [ResponseType(typeof(Job))]
         public IHttpActionResult PostJob(Job job)
         {
+       //     var employer = (Employer)db.Employers.Where(e => e.EmployerId == job.Employer.EmployerId);
+         //   job.Employer = employer;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
             db.Jobs.Add(job);
             db.SaveChanges();
 

@@ -11,13 +11,7 @@ namespace SecondChance.App_Start
     {
         public MappingProfile()
         {
-            var config = new MapperConfiguration(cfg => {
-            cfg.CreateMap<Luser, Luser>();
-            });
-
-            IMapper mapper = config.CreateMapper();
-            var source = new Luser();
-            var dest = mapper.Map<Luser, Luser>(source);
+            Mapper.CreateMap<Job, Job>();
         }
     }
 }
