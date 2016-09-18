@@ -14,12 +14,13 @@ namespace SecondChance.Controllers
 {
     public class UsersController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext _context = new ApplicationDbContext();
 
         // GET: api/Users
-        public IQueryable<Luser> GetUsers()
+        public IHttpActionResult GetUsers()
         {
-            return db.Lusers;
+            var lusers = _context.Lusers.ToList();
+
         }
 
         // GET: api/Users/5

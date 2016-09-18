@@ -8,35 +8,39 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using AutoMapper;
+using SecondChance.Dtos;
 using SecondChance.Models;
 
 namespace SecondChance.Controllers
 {
     public class JobsController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext _context = new ApplicationDbContext();
 
         // GET: api/Jobs
-        public IQueryable<Job> GetJobs()
+        [HttpGet]
+        public IHttpActionResult GetJobs()
         {
-            return db.Jobs;
+            var jobs = _context.Jobs.Include("Employer").ToList();
+            return Ok(jobs);
         }
 
         // GET: api/Jobs/5
-        [ResponseType(typeof(Job))]
+        [HttpGet]
         public IHttpActionResult GetJob(int id)
         {
-            Job job = db.Jobs.Find(id);
+            var job = _context.Jobs.Include("Employer").SingleOrDefault(j => j.JobId == id);
             if (job == null)
             {
-                return NotFound();
+                return BadRequest("Cannot locate job");
             }
-
-            return Ok(job);
+            var jobDto = Mapper.Map<Job, JobDto>(job);
+            return Ok(jobDto);
         }
 
         // PUT: api/Jobs/5
-        [ResponseType(typeof(void))]
+        [HttpPut]
         public IHttpActionResult PutJob(int id, Job job)
         {
             job.JobId = id;
@@ -44,7 +48,7 @@ namespace SecondChance.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var jobInDb = db.Jobs.Include("Employer").SingleOrDefault();
+            var jobInDb = _context.Jobs.Include("Employer").SingleOrDefault(j => j.JobId == id);
             AutoMapper.Mapper.Map(job, jobInDb);
 
             if (jobInDb == null)
@@ -52,39 +56,39 @@ namespace SecondChance.Controllers
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            db.SaveChanges();
+            _context.SaveChanges();
             return Ok();
 
         }
 
         // POST: api/Jobs
-        [ResponseType(typeof(Job))]
+        [HttpPost]
         public IHttpActionResult PostJob(Job job)
         {
-       //     var employer = (Employer)db.Employers.Where(e => e.EmployerId == job.Employer.EmployerId);
-         //   job.Employer = employer;
+            var employer = (Employer)_context.Employers.Where(e => e.EmployerId == job.Employer.EmployerId);
+            job.Employer = employer;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            db.Jobs.Add(job);
-            db.SaveChanges();
+            _context.Jobs.Add(job);
+            _context.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = job.JobId }, job);
         }
 
         // DELETE: api/Jobs/5
-        [ResponseType(typeof(Job))]
+        [HttpDelete]
         public IHttpActionResult DeleteJob(int id)
         {
-            Job job = db.Jobs.Find(id);
+            var job = _context.Jobs.SingleOrDefault(j => j.JobId == id);
             if (job == null)
             {
                 return NotFound();
             }
 
-            db.Jobs.Remove(job);
-            db.SaveChanges();
+            _context.Jobs.Remove(job);
+            _context.SaveChanges();
 
             return Ok(job);
         }
@@ -93,14 +97,14 @@ namespace SecondChance.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool JobExists(int id)
         {
-            return db.Jobs.Count(e => e.JobId == id) > 0;
+            return _context.Jobs.Count(e => e.JobId == id) > 0;
         }
     }
 }
