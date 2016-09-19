@@ -8,67 +8,70 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using AutoMapper;
+using SecondChance.BindingModels;
+using SecondChance.Dtos;
 using SecondChance.Models;
 
 namespace SecondChance.Controllers
 {
     public class EmployersController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext _context = new ApplicationDbContext();
 
         // GET: api/Employers
-        public IQueryable<Employer> GetEmployers()
+        [HttpGet]
+        public IHttpActionResult GetEmployers()
         {
-            return db.Employers;
+           // List<Employer> employers = _context.Employers.ToList();
+          //  var employersDtos = Mapper.Map<List<Employer>,List<EmployerDto>>(employers);
+          var employers = _context.Employers.ToList();
+            var employersDtos = Mapper.Map<List<Employer>,List<EmployerDto>>(employers);
+            return Ok(employersDtos);
         }
 
         // GET: api/Employers/5
-        [ResponseType(typeof(Employer))]
+        [HttpGet]
         public IHttpActionResult GetEmployer(int id)
         {
-            Employer employer = db.Employers.Find(id);
+            var employer = _context.Employers.SingleOrDefault(e => e.EmployerId == id);
+            
             if (employer == null)
             {
                 return NotFound();
             }
+            var employerDto = Mapper.Map<Employer, EmployerDto>(employer);
 
-            return Ok(employer);
+            return Ok(employerDto);
         }
 
         // PUT: api/Employers/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutEmployer(int id, Employer employer)
+        [HttpPut]
+        public IHttpActionResult PutEmployer(int id, EmployerBindingModel employerBindingModel)
         {
 
-            employer.EmployerId = id;
+            employerBindingModel.EmployerId = id;
 
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
-                var employerInDb = db.Employers.SingleOrDefault(e => e.EmployerId == id);
+                var employerInDb = _context.Employers.SingleOrDefault(e => e.EmployerId == id);
 
-            employerInDb.Name = employer.Name;
-            employerInDb.City = employer.Name;
-            employerInDb.Description = employer.Description;
-            employerInDb.ContactEmail = employer.ContactEmail;
-            employerInDb.ContactName = employer.ContactName;
-            employerInDb.ContactPhone = employer.ContactPhone;
-            employerInDb.State = employer.State;
-            employerInDb.Jobs = employer.Jobs;
+            Mapper.Map<EmployerBindingModel, Employer>(employerBindingModel, employerInDb);
 
             if (employerInDb == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            db.SaveChanges();
+            _context.SaveChanges();
             return Ok();
         }
         
 
         // POST: api/Employers
-        [ResponseType(typeof(Employer))]
+        [HttpPost]
         public IHttpActionResult PostEmployer(Employer employer)
         {
             if (!ModelState.IsValid)
@@ -76,24 +79,24 @@ namespace SecondChance.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.Employers.Add(employer);
-            db.SaveChanges();
+            _context.Employers.Add(employer);
+            _context.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = employer.EmployerId }, employer);
         }
 
         // DELETE: api/Employers/5
-        [ResponseType(typeof(Employer))]
+        [HttpDelete]
         public IHttpActionResult DeleteEmployer(int id)
         {
-            Employer employer = db.Employers.Find(id);
+            Employer employer = _context.Employers.SingleOrDefault(e => e.EmployerId == id);
             if (employer == null)
             {
                 return NotFound();
             }
 
-            db.Employers.Remove(employer);
-            db.SaveChanges();
+            _context.Employers.Remove(employer);
+            _context.SaveChanges();
 
             return Ok(employer);
         }
@@ -102,14 +105,14 @@ namespace SecondChance.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool EmployerExists(int id)
         {
-            return db.Employers.Count(e => e.EmployerId == id) > 0;
+            return _context.Employers.Count(e => e.EmployerId == id) > 0;
         }
     }
 }

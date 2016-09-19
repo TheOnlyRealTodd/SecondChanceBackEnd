@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using AutoMapper;
+using SecondChance.BindingModels;
 using SecondChance.Dtos;
 using SecondChance.Models;
 
@@ -19,6 +20,9 @@ namespace SecondChance.App_Start
             Mapper.CreateMap<LuserDto, Luser>();
             Mapper.CreateMap<Employer, EmployerDto>();
             Mapper.CreateMap<EmployerDto, Employer>();
+            Mapper.CreateMap<Employer, EmployerBindingModel>();
+            Mapper.CreateMap<EmployerBindingModel, Employer>();
+
         }
     }
 }
